@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.carousel.MaskableFrameLayout android:id="@+id/carousel_item_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp"
+    android:foreground="?attr/selectableItemBackground"
+    app:shapeAppearance="?attr/shapeAppearanceCornerExtraLarge"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:id="@+id/item_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:transitionName="image"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:id="@+id/txtGiaHienTai"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:layout_gravity="bottom|end"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        android:background="@android:color/transparent"
+        android:padding="8dp"
+        android:layout_marginBottom="60dp"
+        />
+
+    <TextView
+        android:id="@+id/txtGiaKhuyenMai"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:layout_gravity="bottom|end"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:background="@android:color/transparent"
+        android:padding="8dp"
+        android:layout_marginBottom="30dp"
+        />
+
+    <TextView
+        android:id="@+id/txtTenHangPhong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:padding="8dp"
+        android:textColor="@color/white"
+        android:text="TextView"
+        android:background="@android:color/transparent"
+        android:textSize="16sp" />
+
+
+</com.google.android.material.carousel.MaskableFrameLayout>
