@@ -1,23 +1,27 @@
 package com.minihotel.dto;
 
-public class KhachHangRequest {
+public class DangKyRequest {
     private String cmnd;
     private String hoTen;
     private String sdt;
     private String diaChi;
     private String email;
 
-    public KhachHangRequest(String cmnd, String hoTen, String sdt, String diaChi,String email) {
+    private String tenDangNhap;
+    private String matKhau;
+
+    public DangKyRequest() {
+    }
+
+    public DangKyRequest(String cmnd, String hoTen, String sdt, String diaChi, String email, String tenDangNhap, String matKhau) {
         this.cmnd = cmnd;
         this.hoTen = hoTen;
         this.sdt = sdt;
         this.diaChi = diaChi;
         this.email = email;
+        this.tenDangNhap = tenDangNhap;
+        this.matKhau = matKhau;
     }
-
-    public KhachHangRequest() {
-    }
-
 
     public String getCmnd() {
         return cmnd;
@@ -59,4 +63,19 @@ public class KhachHangRequest {
         this.email = email;
     }
 
+    public String getTenDangNhap() {
+        return tenDangNhap;
+    }
+
+    public void setTenDangNhap(String tenDangNhap) {
+        this.tenDangNhap = tenDangNhap;
+    }
+
+    public String getMatKhau() {
+        return matKhau;
+    }
+
+    public void setMatKhau(String matKhau) {
+        this.matKhau = matKhau;
+    }
 }

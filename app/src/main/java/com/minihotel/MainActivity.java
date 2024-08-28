@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -16,8 +17,10 @@ import com.minihotel.adapter.CarouselAdapter;
 import com.minihotel.adapter.HangPhongAdapter;
 import com.minihotel.managers.CallAllThongTinHangPhong;
 import com.minihotel.managers.CallHangPhongTheoThoiGian;
+import com.minihotel.managers.CallThongTinHangPhongTheoSoLuongDatThue;
 import com.minihotel.managers.interfaces.IAllThongTinHangPhong;
 import com.minihotel.managers.interfaces.IHangPhongsTheoThoiGian;
+import com.minihotel.managers.interfaces.IThongTinHangPhongTheoSoLuongDatThue;
 import com.minihotel.models.CartItem;
 import com.minihotel.models.ThongTinHangPhong;
 import com.minihotel.utils.Utils;
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         initViews();
         setEvents();
         showData();
+        settingMenu();
     }
 
     private void showData() {
@@ -56,14 +60,16 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
         getAllHangPhong();
-        getHangPhongTheoThoiGian(Utils.fommatDateRequest(Utils.ngayNhanPhong),
+//        getHangPhongTheoSoLuongDatThue();
+        getHangPhongTheoSoLuongDatThue(Utils.fommatDateRequest(Utils.ngayNhanPhong),
                                 Utils.fommatDateRequest(Utils.ngayTraPhong));
     }
+
+    //0347287432
 
     public void getAllHangPhong(){
         CallAllThongTinHangPhong.getAllThongTinHangPhong(new IAllThongTinHangPhong() {
@@ -93,11 +99,28 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void getHangPhongTheoThoiGian(String ngayDenDat, String ngayDiDat){
-        CallHangPhongTheoThoiGian.getHangPhongsTheoThoiGian(ngayDenDat, ngayDiDat ,new IHangPhongsTheoThoiGian() {
+//    public void getHangPhongTheoThoiGian(String ngayDenDat, String ngayDiDat){
+//        CallHangPhongTheoThoiGian.getHangPhongsTheoThoiGian(ngayDenDat, ngayDiDat ,new IHangPhongsTheoThoiGian() {
+//            @Override
+//            public void onSuccess(List<ThongTinHangPhong> responses) {
+//                thongTinHangPhongs = responses;
+//                progressBar.setVisibility(View.GONE);
+//                setHangPhongRecycler();
+//            }
+//
+//            @Override
+//            public void onError(Throwable t) {
+//                Toast.makeText(MainActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
+
+    public void getHangPhongTheoSoLuongDatThue(String ngayDenDat, String ngayDiDat){
+        CallThongTinHangPhongTheoSoLuongDatThue.getThongTinHangPhongTheoSoLuongDatThue(ngayDenDat, ngayDiDat,
+                new IThongTinHangPhongTheoSoLuongDatThue() {
             @Override
-            public void onSuccess(List<ThongTinHangPhong> responses) {
-                thongTinHangPhongs = responses;
+            public void onSuccess(List<ThongTinHangPhong> thongTinHangPhongsResponse) {
+                thongTinHangPhongs = thongTinHangPhongsResponse;
                 progressBar.setVisibility(View.GONE);
                 setHangPhongRecycler();
             }
@@ -159,5 +182,39 @@ public class MainActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
     }
 
+    private void settingMenu(){
+        ImageButton btnKhachHang, btnGioHang, btnPhieuDat, btnDangXuat;
+        btnKhachHang = findViewById(R.id.btnKhachHang);
+        btnGioHang = findViewById(R.id.btnGioHang);
+        btnPhieuDat = findViewById(R.id.btnPhieuDat);
+        btnDangXuat = findViewById(R.id.btnDangXuat);
 
+        btnKhachHang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, KhachHangActivity.class));
+            }
+        });
+
+        btnGioHang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, CartActivity.class));
+            }
+        });
+
+        btnPhieuDat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, PhieuDatListActivity.class));
+            }
+        });
+
+        btnDangXuat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
 }

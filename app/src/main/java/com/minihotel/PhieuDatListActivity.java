@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.minihotel.adapter.HangPhongAdapter;
@@ -28,11 +30,22 @@ public class PhieuDatListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_phieu_dat_list);
 
         initViews();
+        setupBtnBack();
+    }
+
+    private void setupBtnBack(){
+        ImageButton btnBack = findViewById(R.id.imageButton);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
     @Override
     protected void onResume() {
         super.onResume();
-        getPhieuDatByKhachHang(Utils.khachHang.getIdKhachHang());
+        getPhieuDatByKhachHang(Utils.idKhachHang);
     }
 
     private void getPhieuDatByKhachHang(int idKhachHang) {

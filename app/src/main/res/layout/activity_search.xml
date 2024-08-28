@@ -44,7 +44,8 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -159,70 +160,57 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/coordinator"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
+            android:layout_marginTop="4dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/bg_area"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+            android:layout_marginEnd="8dp">
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtSoNguoi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="Số người thuê"
+                android:textSize="12sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-                android:hint="Giá phòng">
-
-                <AutoCompleteTextView
-                    android:id="@+id/autoTextMucGia"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/baseline_sensor_door_24"
-                    android:drawablePadding="16dp"
-                    android:fontFamily="@font/noto_sans"
-                    android:inputType="none"
-                    android:text="Chọn mức giá"
-                    tools:ignore="LabelFor" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/coordinatorSoLuong"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/bg_area"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/coordinator">
-
+            android:layout_marginEnd="8dp">
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Số người">
+                android:layout_weight="1"
+                android:layout_marginEnd="3dp"
+                android:layout_height="match_parent">
 
-                <AutoCompleteTextView
-                    android:id="@+id/autoTextSoNguoi"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtGiaThapNhat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/baseline_numbers_24"
-                    android:drawablePadding="16dp"
-                    android:fontFamily="@font/noto_sans"
-                    android:inputType="none"
-                    android:text="Số người"
-                    tools:ignore="LabelFor" />
+                    android:hint="Giá thấp nhất"
+                    android:textSize="12sp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_marginStart="3dp"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Giá cao nhất"
+                    android:id="@+id/edtGiaCaoNhat"
+                    android:textSize="12sp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
 
 
         <LinearLayout
@@ -263,5 +251,5 @@
         </LinearLayout>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

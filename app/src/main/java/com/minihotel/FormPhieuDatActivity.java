@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioGroup;
@@ -26,9 +27,12 @@ import com.minihotel.dto.ChiTietPhieuDatRequest;
 import com.minihotel.dto.KhachHangRequest;
 import com.minihotel.dto.PhieuDatRequest;
 import com.minihotel.dto.ResultResponse;
+import com.minihotel.managers.CallKhachHangById;
 import com.minihotel.managers.PostDatPhongKhachSan;
 import com.minihotel.managers.interfaces.IDatPhongKhachSan;
+import com.minihotel.managers.interfaces.IGetKhachHangById;
 import com.minihotel.models.CartItem;
+import com.minihotel.models.KhachHang;
 import com.minihotel.utils.Common;
 import com.minihotel.utils.Utils;
 import com.minihotel.zalopay.CreateOrder;
@@ -54,6 +58,7 @@ public class FormPhieuDatActivity extends AppCompatActivity {
     private RecyclerView rcCartItem;
     private PhieuDatRequest phieuDatRequest = new PhieuDatRequest();
     int typeThanhToan = 0;
+    private KhachHang khachHang;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,9 +66,25 @@ public class FormPhieuDatActivity extends AppCompatActivity {
 
         initViews();
         tinhTongTien();
-        showData();
         setEvents();
         initZaloPay();
+        setupBtnBack();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getKhachHangById(Utils.idKhachHang);
+    }
+
+    private void setupBtnBack(){
+        ImageButton btnBack = findViewById(R.id.imageButton);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void setEvents() {
@@ -85,7 +106,7 @@ public class FormPhieuDatActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(validateSetData()){
-                    phieuDatRequest.setIdKhachHang(Utils.khachHang.getIdKhachHang());
+                    phieuDatRequest.setIdKhachHang(Utils.idKhachHang);
 
                     if(typeThanhToan == 0) { // Tien mat
                         Log.d("AAA", phieuDatRequest.toString());
@@ -200,6 +221,13 @@ public class FormPhieuDatActivity extends AppCompatActivity {
                             "Số tiền tạm ứng phải lớn hơn 10%!").show();
                     return false;
                 }
+
+                if(tienTamUng > tongTien){
+                    Toast.makeText(this, "Số tiền tạm ứng phải nhỏ hơn hoặc bằng tổng tiền!", Toast.LENGTH_SHORT).show();
+                    Utils.onCreateMessageDialog(FormPhieuDatActivity.this,
+                            "Số tiền tạm ứng phải nhỏ hơn hoặc bằng tổng tiền!").show();
+                    return false;
+                }
             }
         }
 
@@ -254,14 +282,30 @@ public class FormPhieuDatActivity extends AppCompatActivity {
         txtTongTien.setText(Common.convertCurrencyVietnamese(tongTien) + " VNĐ");
 
 
-        edtHoTen.setText(Utils.khachHang.getHoTen());
-        edtSdt.setText(Utils.khachHang.getSdt());
-        edtEmail.setText(Utils.khachHang.getEmail());
+        edtHoTen.setText(khachHang.getHoTen());
+        edtSdt.setText(khachHang.getSdt());
+        edtEmail.setText(khachHang.getEmail());
 
 
         edtTienTamUng.setText(tamUngDeXuat+"");
 
         setCartItemRecycler();
+    }
+
+    private void getKhachHangById(int id){
+        CallKhachHangById.getKhachHangById(id, new IGetKhachHangById() {
+            @Override
+            public void onSuccess(KhachHang response) {
+                khachHang = response;
+                showData();
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                Log.d("TAG-ERR", t.getMessage());
+                Toast.makeText(FormPhieuDatActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     // ============================ THANH TOÁN ZALO PAY ================
@@ -285,4 +329,6 @@ public class FormPhieuDatActivity extends AppCompatActivity {
         // ZaloPay SDK Init
         ZaloPaySDK.init(2554, Environment.SANDBOX);
     }
+
+
 }

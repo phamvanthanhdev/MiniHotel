@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.minihotel.adapter.CartAdapter;
@@ -37,6 +39,7 @@ public class CartActivity extends AppCompatActivity {
         tinhSoLuongTongTien();
         showData();
         setEvents();
+        setupBtnBack();
     }
 
     private void setEvents() {
@@ -49,6 +52,15 @@ public class CartActivity extends AppCompatActivity {
                 }else {
                     startActivity(new Intent(CartActivity.this, FormPhieuDatActivity.class));
                 }
+            }
+        });
+    }
+    private void setupBtnBack(){
+        ImageButton btnBack = findViewById(R.id.imageButton);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

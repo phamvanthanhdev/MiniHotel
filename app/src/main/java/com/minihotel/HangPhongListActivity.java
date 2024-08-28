@@ -8,7 +8,9 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.DatePicker;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,8 +18,10 @@ import com.minihotel.adapter.CartAdapter;
 import com.minihotel.adapter.HangPhongAdapter;
 import com.minihotel.managers.CallAllThongTinHangPhong;
 import com.minihotel.managers.CallTimKiemThongTinHangPhong;
+import com.minihotel.managers.CallTimKiemThongTinHangPhongTheoGia;
 import com.minihotel.managers.interfaces.IAllThongTinHangPhong;
 import com.minihotel.managers.interfaces.ITimKiemThongTinHangPhong;
+import com.minihotel.managers.interfaces.ITimKiemThongTinHangPhongTheoGia;
 import com.minihotel.models.CartItem;
 import com.minihotel.models.ThongTinHangPhong;
 import com.minihotel.utils.Utils;
@@ -32,6 +36,7 @@ public class HangPhongListActivity extends AppCompatActivity {
     private int soNguoi;
     private long giaMin;
     private long giaMax;
+    private TextView txtThongBao;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,20 +48,32 @@ public class HangPhongListActivity extends AppCompatActivity {
         giaMax = intent.getLongExtra("giaMax", 0);
 
         initViews();
+        setupBtnBack();
+    }
+
+    private void setupBtnBack(){
+        ImageButton btnBack = findViewById(R.id.imageButton);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void initViews() {
         rcHangPhong = findViewById(R.id.recycleViewHangPhong);
+        txtThongBao = findViewById(R.id.txtThongBao);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        timKiemThongTinHangPhong();
+        timKiemThongTinHangPhongTheoGia();
     }
 
-    public void timKiemThongTinHangPhong(){
+    /*public void timKiemThongTinHangPhong(){
         String ngayDenDat = Utils.fommatDateRequest(Utils.ngayNhanPhong);
         String ngayDiDat = Utils.fommatDateRequest(Utils.ngayTraPhong);
         CallTimKiemThongTinHangPhong.timKiemThongTinHangPhong(ngayDenDat, ngayDiDat, soNguoi, giaMin, giaMax, new ITimKiemThongTinHangPhong() {
@@ -69,6 +86,39 @@ public class HangPhongListActivity extends AppCompatActivity {
                 }
                 thongTinHangPhongs = thongTinHangPhongsResponse;
                 setHangPhongRecycler();
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                Toast.makeText(HangPhongListActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }*/
+
+    public void timKiemThongTinHangPhongTheoGia(){
+        Toast.makeText(this, "nguoi " + soNguoi + " " + giaMin + " " + giaMax, Toast.LENGTH_SHORT).show();
+        String ngayDenDat = Utils.fommatDateRequest(Utils.ngayNhanPhong);
+        String ngayDiDat = Utils.fommatDateRequest(Utils.ngayTraPhong);
+        CallTimKiemThongTinHangPhongTheoGia.timKiemThongTinHangPhongTheoGia(ngayDenDat, ngayDiDat, giaMin, giaMax, new ITimKiemThongTinHangPhongTheoGia() {
+            @Override
+            public void onSuccess(List<ThongTinHangPhong> thongTinHangPhongsResponse) {
+                if(thongTinHangPhongsResponse.size() <= 0){
+                    Utils.onCreateMessageDialog(HangPhongListActivity.this,
+                            "Không có hạng phòng nào thỏa mãn!").show();
+                    txtThongBao.setText("Không có hạng phòng nào thỏa mãn!");
+                    return;
+                }
+                thongTinHangPhongs = thongTinHangPhongsResponse;
+                setHangPhongRecycler();
+                int soLuongChoTrong = 0;
+                for (ThongTinHangPhong thongTin: thongTinHangPhongsResponse) {
+                    soLuongChoTrong += (thongTin.getSoNguoiToiDa() * thongTin.getSoLuongTrong());
+                }
+                if(soNguoi > soLuongChoTrong) {
+                    txtThongBao.setText("Số lượng chỗ trống chỉ còn lại " + soLuongChoTrong + " chỗ.");
+                }else{
+                    txtThongBao.setText("Số lượng chỗ trống còn lại đủ để đặt.");
+                }
             }
 
             @Override

@@ -2,9 +2,12 @@ package com.minihotel.api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.minihotel.dto.DangKyRequest;
+import com.minihotel.dto.KhachHangRequest;
 import com.minihotel.dto.PhieuDatRequest;
 import com.minihotel.dto.ResultResponse;
 import com.minihotel.models.ChiTietPhieuDat;
+import com.minihotel.models.KhachHang;
 import com.minihotel.models.PhieuDat;
 import com.minihotel.models.ThongTinHangPhong;
 import com.minihotel.utils.Containts;
@@ -17,6 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -59,4 +63,26 @@ public interface ApiService {
 
     @POST("api/phieu-dat/")
     Call<ResultResponse> datPhongKhachSan(@Body PhieuDatRequest phieuDatRequest);
+
+    @GET("api/thong-tin-hang-phong/sap-xep")
+    Call<List<ThongTinHangPhong>> getThongTinHangPhongTheoSoLuongDatThue(@Query("ngayDenDat") String ngayDenDat,
+                                                                         @Query("ngayDiDat") String ngayDiDat);
+
+    @GET("api/khach-hang/{id}")
+    Call<KhachHang> getKhachHangTheoId(@Path("id") int id);
+
+    @PUT("api/khach-hang/{id}")
+    Call<KhachHang> updateKhachHang(@Path("id") int id, @Body KhachHangRequest request);
+
+    @POST("api/tai-khoan/login")
+    Call<KhachHang> login(@Query("tenDangNhap") String tenDangNhap, @Query("matKhau") String matKhau);
+
+    @GET("api/thong-tin-hang-phong/tim-kiem-theo-gia")
+    Call<List<ThongTinHangPhong>> timKiemThongTinHangPhongTheoTheoGia(@Query("ngayDenDat") String ngayDenDat,
+                                                           @Query("ngayDiDat") String ngayDiDat,
+                                                           @Query("giaMin") Long giaMin,
+                                                           @Query("giaMax") Long giaMax);
+
+    @POST("api/tai-khoan/dang-ky")
+    Call<ResultResponse> dangKyTaiKhoan(@Body DangKyRequest dangKyRequest);
 }

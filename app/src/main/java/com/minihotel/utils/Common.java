@@ -1,8 +1,10 @@
 package com.minihotel.utils;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.widget.ImageButton;
 
 import java.text.DecimalFormat;
 import java.time.LocalDate;
@@ -26,4 +28,5 @@ public class Common {
         }
         return null;
     }
+
 }

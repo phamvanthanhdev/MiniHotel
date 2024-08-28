@@ -20,9 +20,10 @@ import java.util.List;
 import java.util.Locale;
 
 public class Utils {
-    public static KhachHang khachHang = new KhachHang(3,
-            "", "Phạm Văn Thành", "0987654321",
-            "", "", "thanhdever@gmail.com");
+//    public static KhachHang khachHang = new KhachHang(3,
+//            "", "Phạm Văn Thành", "0987654321",
+//            "", "", "thanhdever@gmail.com");
+    public static int idKhachHang;
     public static LocalDate ngayNhanPhong = getCurrentDate();
     public static LocalDate ngayTraPhong = getPlusDayCurrentDate();
     public static LocalDate getCurrentDate(){
